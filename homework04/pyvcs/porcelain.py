@@ -9,15 +9,18 @@ from pyvcs.tree import commit_tree, write_tree
 
 
 def add(gitdir: pathlib.Path, paths: tp.List[pathlib.Path]) -> None:
-    # PUT YOUR CODE HERE
-    ...
+    for pathway in paths:
+        if pathway.is_file():
+            update_index(gitdir, [pathway], write=True)
+        if pathway.is_dir():
+            add(gitdir, list(pathway.glob('*')))
 
 
 def commit(gitdir: pathlib.Path, message: str, author: tp.Optional[str] = None) -> str:
-    # PUT YOUR CODE HERE
-    ...
+    root = resolve_head(gitdir)
+    main = write_tree(gitdir, read_index(gitdir), str(gitdir.parent))
+    docommit = commit_tree(gitdir, tree, message, parent, author)
+    return docommit
+ 
 
 
-def checkout(gitdir: pathlib.Path, obj_name: str) -> None:
-    # PUT YOUR CODE HERE
-    ...

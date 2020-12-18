@@ -23,7 +23,7 @@ jobs:
         fi
     - name: Run isort
       run: |
-        isort -c —diff -e -w 100 ${{ github.head_ref }}
+        isort -c --diff -e -w 100 ${{ github.head_ref }}
     - name: Run black
       run: |
         black -l 100 --check --diff --color --exclude "test*" ${{ github.head_ref }}

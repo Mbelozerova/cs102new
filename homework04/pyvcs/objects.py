@@ -33,7 +33,7 @@ def resolve_object(obj_name: str, gitdir: pathlib.Path) -> tp.List[str]:
 
 
 def find_object(obj_name: str, gitdir: pathlib.Path) -> str:
-    #Put your code her
+    #Put your code here
     ...
 
 

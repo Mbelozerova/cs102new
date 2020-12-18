@@ -38,7 +38,6 @@ class GitIndexEntry(tp.NamedTuple):
             self.name.encode(),
         )
 
-
     @staticmethod
     def unpack(data: bytes) -> "GitIndexEntry":
         index_unpacked_content = struct.unpack(">10I20sh" + str(len(data) - 62) + "s", data)
@@ -57,7 +56,6 @@ class GitIndexEntry(tp.NamedTuple):
             index_unpacked_content[11],
             index_unpacked_content[12].rstrip(b"\00").decode(),
         )
-
 
 
 def read_index(gitdir: pathlib.Path) -> tp.List[GitIndexEntry]:
@@ -90,7 +88,6 @@ def write_index(gitdir: pathlib.Path, entries: tp.List[GitIndexEntry]) -> None:
         for i in entries:
             data += i.pack()
         file.write(data + hashlib.sha1(data).digest())
-
 
 
 def ls_files(gitdir: pathlib.Path, details: bool = False) -> None:

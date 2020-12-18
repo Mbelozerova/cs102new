@@ -40,8 +40,10 @@ def read_object(sha: str, gitdir: pathlib.Path) -> tp.Tuple[str, bytes]:
     items = repo_find() / "objects"
     with (items / sha[:2] / sha[2:]).open("rb") as f:
         maindata = zlib.decompress(f.read())
-    return (maindata.split(b"\00")[0].split(b" ")[0].decode(),maindata.split(b"\00", maxsplit=1)[1],)
-
+    return (
+        maindata.split(b"\00")[0].split(b" ")[0].decode(),
+        maindata.split(b"\00", maxsplit=1)[1],
+    )
 
 
 def read_tree(data: bytes) -> tp.List[tp.Tuple[int, str, str]]:
@@ -57,7 +59,6 @@ def read_tree(data: bytes) -> tp.List[tp.Tuple[int, str, str]]:
         root.append((int(mode), name, sha.hex()))
         maindata = maindata[start_sha + 21 :]
     return root
-
 
 
 def cat_file(obj_name: str, pretty: bool = True) -> None:
@@ -76,7 +77,6 @@ def cat_file(obj_name: str, pretty: bool = True) -> None:
 
 def find_tree_files(tree_sha: str, gitdir: pathlib.Path) -> tp.List[tp.Tuple[str, str]]:
     ...
-    
 
 
 def commit_parse(raw: bytes, start: int = 0, dct=None):

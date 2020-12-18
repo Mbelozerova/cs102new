@@ -15,7 +15,6 @@ def repo_find(workdir: tp.Union[str, pathlib.Path] = ".") -> pathlib.Path:
     raise Exception("Not a git repository")
 
 
-
 def repo_create(workdir: tp.Union[str, pathlib.Path]) -> pathlib.Path:
     git_name = os.getenv("GIT_DIR", ".pyvcs")
     wrkpath = pathlib.Path(workdir)
@@ -26,11 +25,10 @@ def repo_create(workdir: tp.Union[str, pathlib.Path]) -> pathlib.Path:
     (workpath / git_name / "objects").mkdir()
     with (wrkpath / git_name / "config").open("w") as f:
         f.write(
-    "[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n\tlogallrefupdates = false\n",
-    )
+            "[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n\tlogallrefupdates = false\n"
+        )
     with (wrkpath / git_name / "HEAD").open("w") as f:
         f.write("ref: refs/heads/master\n")
     with (wrkpath / git_name / "description").open("w") as f:
         f.write("Unnamed pyvcs repository.\n")
     return workpath / git_name
-

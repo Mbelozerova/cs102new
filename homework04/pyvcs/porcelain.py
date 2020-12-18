@@ -13,7 +13,7 @@ def add(gitdir: pathlib.Path, paths: tp.List[pathlib.Path]) -> None:
         if pathway.is_file():
             update_index(gitdir, [pathway], write=True)
         if pathway.is_dir():
-            add(gitdir, list(pathway.glob('*')))
+            add(gitdir, list(pathway.glob("*")))
 
 
 def commit(gitdir: pathlib.Path, message: str, author: tp.Optional[str] = None) -> str:
@@ -21,6 +21,3 @@ def commit(gitdir: pathlib.Path, message: str, author: tp.Optional[str] = None) 
     main = write_tree(gitdir, read_index(gitdir), str(gitdir.parent))
     docommit = commit_tree(gitdir, tree, message, parent, author)
     return docommit
- 
-
-

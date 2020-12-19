@@ -1,20 +1,7 @@
 import argparse
 import pathlib
 
-from pyvcs.cli import (
-    cmd_cat_file,
-    cmd_checkout,
-    cmd_commit_tree,
-    cmd_hash_object,
-    cmd_init,
-    cmd_ls_files,
-    cmd_rev_parse,
-    cmd_symbolic_ref,
-    cmd_update_index,
-    cmd_update_ref,
-    cmd_write_tree,
-)
-
+import pyvcs.cli
 
 def add_init_subparser(subparsers) -> None:
     init_subparser = subparsers.add_parser("init", help="Create a new repository.")

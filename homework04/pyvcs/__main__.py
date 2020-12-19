@@ -1,7 +1,6 @@
 import argparse
 import pathlib
 
-
 import pyvcs.cli
 
 def add_init_subparser(subparsers) -> None:

@@ -14,15 +14,15 @@ def add(gitdir: pathlib.Path, paths: tp.List[pathlib.Path]) -> None:
             update_index(gitdir, [path], write=True)
         if path.is_dir():
             add(gitdir, list(path.glob("*")))
- 
- 
+
+
 def commit(gitdir: pathlib.Path, message: str, author: tp.Optional[str] = None) -> str:
     parent = resolve_head(gitdir)
     tree = write_tree(gitdir, read_index(gitdir), str(gitdir.parent))
     com = commit_tree(gitdir, tree, message, parent, author)
     return com
- 
- 
+
+
 def checkout(gitdir: pathlib.Path, obj_name: str) -> None:
     for entry in read_index(gitdir):
         try:

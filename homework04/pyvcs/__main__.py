@@ -19,8 +19,7 @@ def add_init_subparser(subparsers) -> None:
 
 def add_hash_object_subparser(subparsers) -> None:
     hash_object_subparser = subparsers.add_parser(
-        "hash-object",
-        help="Compute object ID and optionally creates a blob from a file.",
+        "hash-object", help="Compute object ID and optionally creates a blob from a file."
     )
     hash_object_subparser.add_argument(
         "-t",
@@ -31,10 +30,7 @@ def add_hash_object_subparser(subparsers) -> None:
         help="Specify the type (default: 'blob')",
     )
     hash_object_subparser.add_argument(
-        "-w",
-        dest="write",
-        action="store_true",
-        help="Actually write the object into the database",
+        "-w", dest="write", action="store_true", help="Actually write the object into the database"
     )
     hash_object_subparser.add_argument("path", type=pathlib.Path, help="Read object from <file>")
     hash_object_subparser.set_defaults(func=cmd_hash_object)

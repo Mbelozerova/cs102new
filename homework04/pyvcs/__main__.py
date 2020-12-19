@@ -5,7 +5,7 @@ from pyvcs.cli import cmd_hash_object  # type: ignore
 from pyvcs.cli import (
     cmd_cat_file,
     cmd_checkout,
-    cmd_commit_tree
+    cmd_commit_tree,
     cmd_init,
     cmd_ls_files,
     cmd_rev_parse,

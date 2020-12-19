@@ -12,6 +12,7 @@ from pyvcs.cli import (
     cmd_update_index,
     cmd_update_ref,
     cmd_write_tree,
+    cmd_commit_tree
 )
 
 

@@ -29,6 +29,14 @@ def write_tree(gitdir: pathlib.Path, index: tp.List[GitIndexEntry], dirname: str
                 (
                     0o40000,
                     str(gitdir.parent / dirname / name),
+                    bytes.fromhex(write_tree(gitdir, subtrees[name], dirname + "/" + name)),
+                )
+            )
+        else:
+            tree_content.append(
+                (
+                    0o40000,
+                    str(gitdir.parent / dirname / name),
                     bytes.fromhex(write_tree(gitdir, subtrees[name], name)),
                 )
             )
@@ -64,3 +72,5 @@ def commit_tree(
     data.append(f"committer {author} {int(time.mktime(time.localtime()))} {timezone}")
     data.append(f"\n{message}\n")
     return hash_object("\n".join(data).encode(), "commit", write=True)
+
+

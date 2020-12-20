@@ -77,7 +77,7 @@ def cat_file(obj_name: str, pretty: bool = True) -> None:
 
 
 def find_tree_files(tree_sha: str, gitdir: pathlib.Path) -> tp.List[tp.Tuple[str, str]]:
-    # PUT YOUR CODE HER
+    # PUT YOUR CODE HEre
     ...
 
 

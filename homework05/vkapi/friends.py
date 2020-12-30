@@ -16,10 +16,7 @@ class FriendsResponse:
 
 
 def get_friends(
-    user_id: int,
-    count: int = 5000,
-    offset: int = 0,
-    fields: tp.Optional[tp.List[str]] = None,
+    user_id: int, count: int = 5000, offset: int = 0, fields: tp.Optional[tp.List[str]] = None
 ) -> FriendsResponse:
     """
     Получить список идентификаторов друзей пользователя или расширенную информацию
@@ -33,12 +30,7 @@ def get_friends(
     """
     response = session.get(
         "friends.get",
-        params={
-            "user_id": user_id,
-            "count": count,
-            "offset": offset,
-            "fields": fields,
-        },
+        params={"user_id": user_id, "count": count, "offset": offset, "fields": fields},
     ).json()["response"]
     return FriendsResponse(count=response["count"], items=response["items"])
 

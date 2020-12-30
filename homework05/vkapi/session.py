@@ -2,8 +2,8 @@ import typing as tp
 
 import requests
 from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
 from requests.exceptions import RetryError
+from requests.packages.urllib3.util.retry import Retry
 
 
 class Session(requests.Session):
@@ -17,11 +17,7 @@ class Session(requests.Session):
     """
 
     def __init__(
-        self,
-        base_url: str,
-        timeout: float = 5.0,
-        max_retries: int = 3,
-        backoff_factor: float = 0.3,
+        self, base_url: str, timeout: float = 5.0, max_retries: int = 3, backoff_factor: float = 0.3
     ) -> None:
         super().__init__()
         self.retries = Retry(

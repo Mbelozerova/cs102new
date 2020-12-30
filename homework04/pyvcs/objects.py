@@ -36,8 +36,10 @@ def resolve_object(obj_name: str, gitdir: pathlib.Path) -> tp.List[str]:
 
 
 def find_object(obj_name: str, gitdir: pathlib.Path) -> str:
-    # PUT YOUR CODE HERE
-    ...
+    dir_name = obj_name[:2]
+    file_name = obj_name[:2]
+    path = str(gitdir) + "/" + dir_name + "/" + file_name
+    return path
 
 
 def read_object(sha: str, gitdir: pathlib.Path) -> tp.Tuple[str, bytes]:
@@ -77,8 +79,13 @@ def cat_file(obj_name: str, pretty: bool = True) -> None:
 
 
 def find_tree_files(tree_sha: str, gitdir: pathlib.Path) -> tp.List[tp.Tuple[str, str]]:
-    # PUT YOUR CODE HEre
-    ...
+     objects = {tree_sha}
+    for mode, path, sha in read_tree(tree_sha):
+        if stat.S_ISDIR(mode):
+            objects.update(find_tree_files(sha, path))
+        else:
+            objects.add(sha)
+    return objects
 
 
 def commit_parse(raw: bytes, start: int = 0, dct=None):

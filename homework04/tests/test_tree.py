@@ -4,8 +4,9 @@ import time
 import unittest
 from unittest.mock import patch
 
-import pyvcs
 from pyfakefs.fake_filesystem_unittest import TestCase
+
+import pyvcs
 from pyvcs.index import read_index, update_index
 from pyvcs.repo import repo_create
 from pyvcs.tree import commit_tree, write_tree
@@ -21,7 +22,9 @@ class WriteTreeTestCase(TestCase):
         animals = pathlib.Path("animals.txt")
         mode100644 = stat.S_IFREG | stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH
         self.fs.create_file(
-            animals, contents="Big blue basilisks bawl in the basement\n", st_mode=mode100644
+            animals,
+            contents="Big blue basilisks bawl in the basement\n",
+            st_mode=mode100644,
         )
         update_index(gitdir, [animals], write=True)
         entries = read_index(gitdir)

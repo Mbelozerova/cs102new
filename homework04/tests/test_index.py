@@ -3,8 +3,9 @@ import pathlib
 import unittest
 from unittest.mock import patch
 
-import pyvcs
 from pyfakefs.fake_filesystem_unittest import TestCase
+
+import pyvcs
 from pyvcs.index import GitIndexEntry, ls_files, read_index, update_index, write_index
 from pyvcs.repo import repo_create
 
@@ -63,7 +64,9 @@ class ReadIndexTestCase(TestCase):
         entries = read_index(gitdir)
         self.assertEqual(3, len(entries))
         # TODO: Add sha
-        self.assertEqual(["bar.txt", "baz/numbers.txt", "foo.txt"], [e.name for e in entries])
+        self.assertEqual(
+            ["bar.txt", "baz/numbers.txt", "foo.txt"], [e.name for e in entries]
+        )
 
     def test_read_index_when_index_doesnt_exist(self):
         gitdir = repo_create(".")
@@ -219,4 +222,6 @@ class UpdateIndexTestCase(TestCase):
         self.assertEqual(3, len(entries))
 
         names = [e.name for e in entries]
-        self.assertEqual(["alphabeta/letters.txt", "numbers/digits.txt", "quote.txt"], names)
+        self.assertEqual(
+            ["alphabeta/letters.txt", "numbers/digits.txt", "quote.txt"], names
+        )

@@ -16,7 +16,10 @@ class FriendsResponse:
 
 
 def get_friends(
-    user_id: int, count: int = 5000, offset: int = 0, fields: tp.Optional[tp.List[str]] = None
+    user_id: int,
+    count: int = 5000,
+    offset: int = 0,
+    fields: tp.Optional[tp.List[str]] = None,
 ) -> FriendsResponse:
     """
     Получить список идентификаторов друзей пользователя или расширенную информацию
@@ -28,7 +31,16 @@ def get_friends(
     :param fields: Список полей, которые нужно получить для каждого пользователя.
     :return: Список идентификаторов друзей пользователя или список пользователей.
     """
-    pass
+    response = session.get(
+        "friends.get",
+        params={
+            "user_id": user_id,
+            "count": count,
+            "offset": offset,
+            "fields": fields,
+        },
+    ).json()["response"]
+    return FriendsResponse(count=response["count"], items=response["items"])
 
 
 class MutualFriends(tp.TypedDict):
@@ -40,7 +52,7 @@ class MutualFriends(tp.TypedDict):
 def get_mutual(
     source_uid: tp.Optional[int] = None,
     target_uid: tp.Optional[int] = None,
-    target_uids: tp.Optional[tp.List[int]] = None,
+    target_uids: tp.Optional[tp.List[int]] = None,  # type: ignore
     order: str = "",
     count: tp.Optional[int] = None,
     offset: int = 0,
@@ -57,4 +69,38 @@ def get_mutual(
     :param offset: Смещение, необходимое для выборки определенного подмножества общих друзей.
     :param progress: Callback для отображения прогресса.
     """
-    pass
+    if target_uid:
+        return session.get(
+            "friends.getMutual",
+            params={
+                "source_uid": source_uid,
+                "target_uid": target_uid,
+                "order": order,
+                "count": count,
+                "offset": offset,
+            },
+        ).json()["response"]
+    result: tp.List[MutualFriends] = []
+    number = range(0, len(target_uids), 100)  # type: ignore
+    if progress is not None:
+        number = progress(number)
+    for shift in number:
+        response = session.get(
+            "friends.getMutual",
+            params={
+                "source_uid": source_uid,
+                "target_uids": target_uids[shift : shift + 100],  # type: ignore
+                "order": order,
+                "count": count,
+                "offset": offset + shift,
+            },
+        ).json()["response"]
+        result.extend(
+            MutualFriends(
+                id=data["id"],
+                common_friends=data["common_friends"],
+                common_count=data["common_count"],)
+            for data in response
+        )
+        time.sleep(0.34)
+    return result

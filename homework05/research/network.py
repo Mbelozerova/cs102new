@@ -47,7 +47,7 @@ def plot_communities(net: tp.List[tp.Tuple[int, int]]) -> None:
 
 
 def get_communities(net: tp.List[tp.Tuple[int, int]]) -> tp.Dict[int, tp.List[int]]:
-    communities = defaultdict(list)
+    communities = defaultdict(list)  # type: ignore
     graph = nx.Graph()
     graph.add_edges_from(net)
     partition = community_louvain.best_partition(graph)
@@ -70,7 +70,7 @@ def describe_communities(
             for friend in friends:
                 if uid == friend["id"]:
                     data.append(
-                        [cluster_n] + [friend.get(field) for field in fields]
+                        [cluster_n] + [friend.get(field) for field in fields]  # type: ignore
                     )  # type: ignore
                     break
     return pd.DataFrame(data=data, columns=["cluster"] + fields)

@@ -31,13 +31,13 @@ def get_friends(
     response = session.get(
         "friends.get",
         params={
-+            "user_id": user_id,
-+            "count": count,
-+            "offset": offset,
-+            "fields": fields,
-+            "access_token": config.VK_CONFIG["access_token"],
-+            "v": config.VK_CONFIG["version"],
-+        },
+            "user_id": user_id,
+            "count": count,
+            "offset": offset,
+            "fields": fields,
+            "access_token": config.VK_CONFIG["access_token"],
+            "v": config.VK_CONFIG["version"],
+        },
     ).json()["response"]
     return FriendsResponse(count=response["count"], items=response["items"])
 
@@ -77,7 +77,7 @@ def get_mutual(
                 "order": order,
                 "count": count,
                 "offset": offset,
-                "access_token": config.VK_CONFIG["access_token"], 
+                "access_token": config.VK_CONFIG["access_token"],
                 "v": config.VK_CONFIG["version"],
             },
         ).json()["response"]
@@ -92,11 +92,13 @@ def get_mutual(
             "friends.getMutual",
             params={
                 "source_uid": source_uid,
-                "target_uids": ",".join([str(element) for element in target_uids[shift : shift + 100]]),  # type: ignore
+                "target_uids": ",".join(
+                    [str(element) for element in target_uids[shift : shift + 100]]
+                ),  # type: ignore
                 "order": order,
                 "count": count,
                 "offset": offset + shift,
-                "access_token": config.VK_CONFIG["access_token"], 
+                "access_token": config.VK_CONFIG["access_token"],
                 "v": config.VK_CONFIG["version"],
             },
         ).json()["response"]

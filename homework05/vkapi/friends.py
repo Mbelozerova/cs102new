@@ -30,7 +30,14 @@ def get_friends(
     """
     response = session.get(
         "friends.get",
-        params={"user_id": user_id, "count": count, "offset": offset, "fields": fields, "access_token": config.VK_CONFIG["access_token"], "v": config.VK_CONFIG["version"], },
+        params={
++            "user_id": user_id,
++            "count": count,
++            "offset": offset,
++            "fields": fields,
++            "access_token": config.VK_CONFIG["access_token"],
++            "v": config.VK_CONFIG["version"],
++        },
     ).json()["response"]
     return FriendsResponse(count=response["count"], items=response["items"])
 

@@ -5,7 +5,6 @@ import community as community_louvain
 import matplotlib.pyplot as plt
 import networkx as nx
 import pandas as pd
-
 from vkapi.friends import get_friends, get_mutual
 
 
@@ -18,7 +17,14 @@ def ego_network(
     :param user_id: Идентификатор пользователя, для которого строится граф друзей.
     :param friends: Идентификаторы друзей, между которыми устанавливаются связи.
     """
-    pass
+    network = []
+    if not friends:
+        get_friends(user_id).items  # type: ignore
+    mutual_friends = get_mutual(source_uid=user_id, target_uids=friends)
+    for target in mutual_friends:
+        for friend in target["common_friends"]:  # type: ignore
+            network.append((target["id"], friend))  # type: ignore
+    return network
 
 
 def plot_ego_network(net: tp.List[tp.Tuple[int, int]]) -> None:
@@ -41,7 +47,7 @@ def plot_communities(net: tp.List[tp.Tuple[int, int]]) -> None:
 
 
 def get_communities(net: tp.List[tp.Tuple[int, int]]) -> tp.Dict[int, tp.List[int]]:
-    communities = defaultdict(list)
+    communities = defaultdict(list)  # type: ignore
     graph = nx.Graph()
     graph.add_edges_from(net)
     partition = community_louvain.best_partition(graph)
@@ -63,6 +69,8 @@ def describe_communities(
         for uid in cluster_users:
             for friend in friends:
                 if uid == friend["id"]:
-                    data.append([cluster_n] + [friend.get(field) for field in fields])  # type: ignore
+                    data.append(
+                        [cluster_n] + [friend.get(field) for field in fields]  # type: ignore
+                    )  # type: ignore
                     break
     return pd.DataFrame(data=data, columns=["cluster"] + fields)

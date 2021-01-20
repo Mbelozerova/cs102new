@@ -16,15 +16,11 @@ class FriendsResponse:
 
 
 def get_friends(
-    user_id: int,
-    count: int = 5000,
-    offset: int = 0,
-    fields: tp.Optional[tp.List[str]] = None,
+    user_id: int, count: int = 5000, offset: int = 0, fields: tp.Optional[tp.List[str]] = None
 ) -> FriendsResponse:
     """
     Получить список идентификаторов друзей пользователя или расширенную информацию
     о друзьях пользователя (при использовании параметра fields).
-
     :param user_id: Идентификатор пользователя, список друзей для которого нужно получить.
     :param count: Количество друзей, которое нужно вернуть.
     :param offset: Смещение, необходимое для выборки определенного подмножества друзей.
@@ -62,7 +58,6 @@ def get_mutual(
 ) -> tp.Union[tp.List[int], tp.List[MutualFriends]]:
     """
     Получить список идентификаторов общих друзей между парой пользователей.
-
     :param source_uid: Идентификатор пользователя, чьи друзья пересекаются с друзьями пользователя с идентификатором target_uid.
     :param target_uid: Идентификатор пользователя, с которым необходимо искать общих друзей.
     :param target_uids: Cписок идентификаторов пользователей, с которыми необходимо искать общих друзей.
@@ -80,29 +75,39 @@ def get_mutual(
                 "order": order,
                 "count": count,
                 "offset": offset,
+                "access_token": config.VK_CONFIG["access_token"],
+                "v": config.VK_CONFIG["version"],
             },
         ).json()["response"]
+
     result: tp.List[MutualFriends] = []
-    number = range(0, len(target_uids), 100)  # type: ignore
+    range_ = range(0, len(target_uids), 100)  # type: ignore
     if progress is not None:
-        number = progress(number)
-    for shift in number:
+        range_ = progress(range_)
+
+    for shift in range_:
         response = session.get(
             "friends.getMutual",
             params={
                 "source_uid": source_uid,
-                "target_uids": target_uids[shift : shift + 100],  # type: ignore
+                "target_uids": ",".join(
+                    [str(element) for element in target_uids[shift : shift + 100]]  # type: ignore
+                ),
                 "order": order,
                 "count": count,
                 "offset": offset + shift,
+                "access_token": config.VK_CONFIG["access_token"],
+                "v": config.VK_CONFIG["version"],
             },
         ).json()["response"]
         result.extend(
             MutualFriends(
                 id=data["id"],
                 common_friends=data["common_friends"],
-                common_count=data["common_count"],)
+                common_count=data["common_count"],
+            )
             for data in response
         )
         time.sleep(0.34)
+
     return result

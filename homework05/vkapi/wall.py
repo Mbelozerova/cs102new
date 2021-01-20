@@ -5,7 +5,6 @@ from string import Template
 
 import pandas as pd
 from pandas import json_normalize
-
 from requests.api import post
 from vkapi import config, session
 from vkapi.exceptions import APIError
@@ -65,6 +64,7 @@ def get_posts_2500(
         }};
         return wall_records;
         """
+
     response = session.post(
         url="execute",
         data={
@@ -76,6 +76,7 @@ def get_posts_2500(
     if "response" in response:
         return response["response"]
     raise APIError
+
 
 def get_wall_execute(
     owner_id: str = "",
@@ -90,9 +91,7 @@ def get_wall_execute(
 ) -> pd.DataFrame:
     """
     Возвращает список записей со стены пользователя или сообщества.
-
     @see: https://vk.com/dev/wall.get
-
     :param owner_id: Идентификатор пользователя или сообщества, со стены которого необходимо получить записи.
     :param domain: Короткий адрес пользователя или сообщества.
     :param offset: Смещение, необходимое для выборки определенного подмножества записей.
@@ -151,4 +150,5 @@ def get_wall_execute(
         except:
             raise APIError
         time.sleep(0.34)
+
     return json_normalize(posts["items"])

@@ -74,4 +74,3 @@ def cmd_commit(args: argparse.Namespace) -> None:
 def cmd_checkout(args: argparse.Namespace) -> None:
     gitdir = repo_find()
     checkout(gitdir, args.obj_name)
-

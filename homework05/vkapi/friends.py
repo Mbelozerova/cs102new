@@ -38,9 +38,8 @@ def get_friends(
             "count": count,
             "offset": offset,
             "fields": fields,
-        },
-    ).json()["response"]
-    return FriendsResponse(count=response["count"], items=response["items"])
+            "access_token": config.VK_CONFIG["access_token"],
+            "v": config.VK_CONFIG["version"],
 
 
 class MutualFriends(tp.TypedDict):

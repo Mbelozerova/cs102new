@@ -40,7 +40,7 @@ def get_friends(
             "fields": fields,
             "access_token": config.VK_CONFIG["access_token"],
             "v": config.VK_CONFIG["version"],
-            },
+        },
     ).json()["response"]
     return FriendsResponse(count=response["count"], items=response["items"])
 

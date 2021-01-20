@@ -9,7 +9,7 @@ def update_ref(gitdir: pathlib.Path, ref: tp.Union[str, pathlib.Path], new_value
 
 
 def symbolic_ref(gitdir: pathlib.Path, name: str, ref: str) -> None:
-    # PUT YOUR CODE HERE
+    # PUT YOUR CODE HER
     ...
 
 

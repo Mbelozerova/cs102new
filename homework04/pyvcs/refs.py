@@ -3,12 +3,13 @@ import typing as tp
 
 
 def update_ref(gitdir: pathlib.Path, ref: tp.Union[str, pathlib.Path], new_value: str) -> None:
-    with (gitdir / ref).open("w") as file:
-        file.write(new_value)
+    ref_file = gitdir / ref
+    with ref_file.open("w") as s:
+        s.write(new_value)
 
 
 def symbolic_ref(gitdir: pathlib.Path, name: str, ref: str) -> None:
-    # put your code here
+    # PUT YOUR CODE HERE
     ...
 
 
@@ -23,17 +24,19 @@ def ref_resolve(gitdir: pathlib.Path, refname: str) -> tp.Optional[str]:
 
 def resolve_head(gitdir: pathlib.Path) -> tp.Optional[str]:
     with (gitdir / "HEAD").open() as f:
-        return ref_resolve(gitdir, f.read().strip().split()[1])
+        return ref_resolve(gitdir, get_ref(gitdir))
 
 
 def is_detached(gitdir: pathlib.Path) -> bool:
-    try:
-        get_ref(gitdir)
-    except IndexError:
+    if get_ref(gitdir) == "":
         return True
     return False
 
 
 def get_ref(gitdir: pathlib.Path) -> str:
     with (gitdir / "HEAD").open() as f:
-        return f.read().strip().split()[1]
+        data = f.read().strip().split()
+        if len(data) == 2:
+            return data[1]
+        else:
+            return ""

@@ -63,7 +63,6 @@ def describe_communities(
 ) -> pd.DataFrame:
     if fields is None:
         fields = ["first_name", "last_name"]
-
     data = []
     for cluster_n, cluster_users in clusters.items():
         for uid in cluster_users:

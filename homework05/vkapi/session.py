@@ -4,6 +4,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from requests.exceptions import RetryError
 from requests.packages.urllib3.util.retry import Retry
+from requests.exceptions import RetryError
 
 
 class Session(requests.Session):
